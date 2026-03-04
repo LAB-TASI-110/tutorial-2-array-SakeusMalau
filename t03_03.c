@@ -3,6 +3,7 @@
 #include <stdlib.h>   
 #include <float.h>    
 
+
 int processInputNumbers(int* min_val_ptr, int* max_val_ptr, double* lowest_avg_ptr, double* highest_avg_ptr) {
     int n; 
     scanf("%d", &n); 

@@ -2,6 +2,7 @@
 #include <limits.h>   
 #include <stdlib.h>   
 
+
 int* getInputNumbers() {
     int n; 
     int num; 
