@@ -37,7 +37,6 @@ int main() {
         }
     }
     
-    printf("\nOutput:\n");
     printf("%d\n", minAngka); 
     printf("%d\n", maxAngka); 
     

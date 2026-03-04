@@ -37,8 +37,7 @@ int main() {
             maxAngka = angka[i];
         }
     }
-    
-    printf("\nOutput:\n");
+
     printf("%d\n", minAngka); 
     printf("%d\n", maxAngka); 
 
