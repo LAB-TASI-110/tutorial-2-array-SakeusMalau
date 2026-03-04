@@ -1,47 +1,36 @@
-#include <stdio.h> 
+#include <stdio.h> // Untuk fungsi input/output seperti printf dan scanf
+#include <limits.h> // Untuk INT_MAX dan INT_MIN (nilai integer maksimum dan minimum)
 
 int main() {
-    int jumlahAngka; 
-   
-    scanf("%d", &jumlahAngka);
-    
-    if (jumlahAngka <= 0 || jumlahAngka > 100) {
-        printf("Jumlah angka tidak valid. Masukkan angka antara 1 sampai 100.\n");
-        return 1; 
-    }
-    
-    int angka[jumlahAngka]; 
-    
-    int minAngka = 101; 
-    int maxAngka = -101; 
-    
-    
-    
-    for (int i = 0; i < jumlahAngka; i++) {
-       
-        scanf("%d", &angka[i]);
+    int n; // Variabel untuk menyimpan jumlah baris angka
+    int num; // Variabel untuk menyimpan setiap bilangan yang diinput
+    int min_val = INT_MAX; // Inisialisasi min_val dengan nilai integer terbesar
+    int max_val = INT_MIN; // Inisialisasi max_val dengan nilai integer terkecil
+
+    // Menerima input n sebagai jumlah baris angka
+    // Tidak ada validasi input untuk n sesuai permintaan
+    scanf("%d", &n);
+
+    // Loop untuk menerima n buah bilangan bulat
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &num); // Menerima bilangan bulat
         
-        if (angka[i] < -100 || angka[i] > 100) {
-            printf("Angka di luar batasan (-100 sampai 100). Mohon masukkan ulang.\n");
-            i--; 
-            continue; 
+        // Membandingkan dengan nilai terkecil yang sudah ada
+        if (num < min_val) {
+            min_val = num;
         }
         
-        if (angka[i] < minAngka) {
-            minAngka = angka[i];
-        }
-        
-        if (angka[i] > maxAngka) {
-            maxAngka = angka[i];
+        // Membandingkan dengan nilai terbesar yang sudah ada
+        if (num > max_val) {
+            max_val = num;
         }
     }
-    
 
+    // Menampilkan nilai terkecil pada baris pertama
+    printf("%d\n", min_val);
+    
+    // Menampilkan nilai terbesar pada baris kedua
+    printf("%d\n", max_val);
 
-    printf("%d\n", minAngka); 
-    printf("%d\n", maxAngka); 
-    
-    printf("\n"); 
-    
-    return 0; 
+    return 0; // Menandakan program berakhir dengan sukses
 }

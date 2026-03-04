@@ -1,67 +1,85 @@
-#include <stdio.h> 
-#include <float.h> 
+#include <stdio.h>    
+#include <limits.h>   
+#include <stdlib.h>   
+#include <float.h>    
+
+int processInputNumbers(int* min_val_ptr, int* max_val_ptr, double* lowest_avg_ptr, double* highest_avg_ptr) {
+    int n; 
+    scanf("%d", &n); 
+
+    *min_val_ptr = INT_MAX;
+    *max_val_ptr = INT_MIN;
+    *lowest_avg_ptr = DBL_MAX;   
+    *highest_avg_ptr = DBL_MIN;  
+
+    if (n <= 0) {
+        return n;
+    }
+
+    int* numbers = (int*) malloc(n * sizeof(int));
+    if (numbers == NULL) {
+       
+        fprintf(stderr, "Gagal mengalokasikan memori!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &numbers[i]);
+        
+        if (numbers[i] < *min_val_ptr) {
+            *min_val_ptr = numbers[i];
+        }
+        
+        if (numbers[i] > *max_val_ptr) {
+            *max_val_ptr = numbers[i];
+        }
+    }
+
+    if (n >= 2) {
+        for (int i = 0; i < n - 1; i++) {
+            double current_avg = (double)(numbers[i] + numbers[i+1]) / 2.0;
+            
+            if (current_avg < *lowest_avg_ptr) {
+                *lowest_avg_ptr = current_avg;
+            }
+            
+            if (current_avg > *highest_avg_ptr) {
+                *highest_avg_ptr = current_avg;
+            }
+        }
+    }
+   
+    free(numbers);
+    
+    return n; 
+}
+
+void displayResults(int n_val, int min_val, int max_val, double lowest_avg, double highest_avg) {
+    
+    if (n_val > 0) {
+        printf("%d\n", min_val);
+        printf("%d\n", max_val);
+    }
+    
+    if (n_val >= 2 && lowest_avg != DBL_MAX) {
+        printf("%.2f\n", lowest_avg); 
+    }
+
+    if (n_val >= 2 && highest_avg != DBL_MIN) {
+        printf("%.2f\n", highest_avg); 
+    }
+}
 
 int main() {
-    int jumlahAngka; 
-    
-    printf("Masukkan jumlah angka yang akan diinput: ");
-    scanf("%d", &jumlahAngka);
-    
-    if (jumlahAngka <= 0 || jumlahAngka > 100) {
-        printf("Jumlah angka tidak valid. Masukkan angka antara 1 sampai 100.\n");
-        return 1;
-    }
+    int min_val_result;
+    int max_val_result;
+    double lowest_avg_result;
+    double highest_avg_result; 
+    int n_input; 
 
-    int angka[jumlahAngka]; 
-    
-    int minAngka = 101; 
-    int maxAngka = -101; 
-    
-    printf("Masukkan angka-angka (antara -100 sampai 100):\n");
-    
-    for (int i = 0; i < jumlahAngka; i++) {
-        printf("Angka ke-%d: ", i + 1);
-        scanf("%d", &angka[i]);
-        
-       
-        if (angka[i] < -100 || angka[i] > 100) {
-            printf("Angka di luar batasan (-100 sampai 100). Mohon masukkan ulang.\n");
-            i--; 
-            continue; 
-        
-        if (angka[i] < minAngka) {
-            minAngka = angka[i];
-        }
-        
-        if (angka[i] > maxAngka) {
-            maxAngka = angka[i];
-        }
-    }
+    n_input = processInputNumbers(&min_val_result, &max_val_result, &lowest_avg_result, &highest_avg_result);
 
-    printf("%d\n", minAngka); 
-    printf("%d\n", maxAngka); 
+    displayResults(n_input, min_val_result, max_val_result, lowest_avg_result, highest_avg_result);
 
-    if (jumlahAngka >= 2) { 
-        float minRataRataBerturutTurut = FLT_MAX; 
-        float maxRataRataBerturutTurut = -FLT_MAX; 
-        
-        for (int i = 0; i < jumlahAngka - 1; i++) { 
-            float currentRataRata = (float)(angka[i] + angka[i+1]) / 2.0;
-            
-            if (currentRataRata < minRataRataBerturutTurut) {
-                minRataRataBerturutTurut = currentRataRata;
-            }
-            
-            if (currentRataRata > maxRataRataBerturutTurut) {
-                maxRataRataBerturutTurut = currentRataRata;
-            }
-        }
-        printf("%.2f\n", minRataRataBerturutTurut); 
-        printf("%.2f\n", maxRataRataBerturutTurut); 
-    } else {
-        printf("\n"); 
-        printf("\n"); 
-    }
-    
     return 0; 
 }

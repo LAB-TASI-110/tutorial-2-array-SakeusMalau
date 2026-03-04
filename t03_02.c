@@ -1,57 +1,55 @@
-#include <stdio.h> 
-#include <float.h> 
-int main() {
-    int jumlahAngka; 
-    
-    printf("Masukkan jumlah angka yang akan diinput: ");
-    scanf("%d", &jumlahAngka);
-    
-    if (jumlahAngka <= 0 || jumlahAngka > 100) {
-        printf("Jumlah angka tidak valid. Masukkan angka antara 1 sampai 100.\n");
-        return 1; 
-    }
-    
-    int angka[jumlahAngka]; 
-    
-    int minAngka = 101; 
-    int maxAngka = -101; 
-    printf("Masukkan angka-angka (antara -100 sampai 100):\n");
-    
-    for (int i = 0; i < jumlahAngka; i++) {
-        printf("Angka ke-%d: ", i + 1);
-        scanf("%d", &angka[i]);
+#include <stdio.h>    
+#include <limits.h>   
+#include <stdlib.h>   
+
+int* getInputNumbers() {
+    int n; 
+    int num; 
+    int min_val = INT_MAX; 
+    int max_val = INT_MIN; 
+
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &num); 
         
-        if (angka[i] < -100 || angka[i] > 100) {
-            printf("Angka di luar batasan (-100 sampai 100). Mohon masukkan ulang.\n");
-            i--; 
-            continue; 
+        if (num < min_val) {
+            min_val = num;
         }
         
-        if (angka[i] < minAngka) {
-            minAngka = angka[i];
-        }
-        
-        if (angka[i] > maxAngka) {
-            maxAngka = angka[i];
+        if (num > max_val) {
+            max_val = num;
         }
     }
 
-    printf("%d\n", minAngka); 
-    printf("%d\n", maxAngka); 
-    
-    if (jumlahAngka >= 2) { 
-        float minRataRataBerturutTurut = FLT_MAX; 
+    int* result = (int*) malloc(sizeof(int) * 2);
+    if (result == NULL) {
         
-        for (int i = 0; i < jumlahAngka - 1; i++) { 
-            float currentRataRata = (float)(angka[i] + angka[i+1]) / 2.0;
-            if (currentRataRata < minRataRataBerturutTurut) {
-                minRataRataBerturutTurut = currentRataRata;
-            }
-        }
-        printf("%.2f\n", minRataRataBerturutTurut); 
-    } else {
-        printf("\n"); 
+        fprintf(stderr, "Gagal mengalokasikan memori!\n");
+        exit(EXIT_FAILURE);
     }
+    result[0] = min_val;
+    result[1] = max_val;
     
+    return result; 
+}
+
+void displayMinMax(int min_val, int max_val) {
+    
+    printf("%d\n", min_val);
+    
+    printf("%d\n", max_val);
+}
+
+int main() {
+    int* results; 
+
+    results = getInputNumbers();
+
+    displayMinMax(results[0], results[1]);
+
+    free(results);
+    results = NULL; 
+
     return 0; 
 }
